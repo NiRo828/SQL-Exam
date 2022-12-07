@@ -1,0 +1,75 @@
+-----------SQL Basic Query Exam 7 12 22 ----------------
+---------------		Q1		----------------------------
+--select * from [dbo].[Products] where  [UnitPrice] between 30 and 40
+---------------		Q2		----------------------------
+--select * from [dbo].[Products] where [CategoryID]=2
+---------------		Q3		----------------------------
+--select [ProductName], [Description] from [dbo].[Products]
+--inner join [dbo].[Categories] on Products.[CategoryID] = Categories.CategoryID
+--where Categories.Description like '%s%'
+--order by ProductName
+---------------		Q4		----------------------------
+--select distinct [ProductName] from  [dbo].[Products]
+--INNER JOIN [Order Details]  ON [dbo].[Products].[ProductID]= [Order Details].ProductID
+--INNER JOIN [dbo].[Orders] ON [Order Details].OrderID=[dbo].[Orders].OrderID
+--WHERE Orders.CustomerID= '%ALFKI'
+---------------		Q5		----------------------------
+--SELECT OrderID, ShipCountry
+--FROM Orders
+--WHERE ShipCountry = 'Brazil' OR ShipCountry = 'London'
+---------------		Q6		----------------------------
+--select *
+--from Customers,Shippers
+--where Shippers.ShipperID = 3
+---------------		Q7		----------------------------
+/*
+CREATE PROCEDURE getProductsbyOrder_id(@Order_ID INT)
+AS
+BEGIN
+	select P.ProductName, P.UnitPrice
+	from  [Order Details] as od
+	inner join Products as p
+	on od.ProductID = P.ProductID
+	where od.OrderID = @order_ID
+
+	select sum(P.UnitPrice) as OrderTotalPrice
+	from [Order Details] as od
+	inner join Products as p
+	on od.ProductID = p.ProductID
+	where od.OrderID = @order_ID
+END
+GO
+
+exec getProductsbyOrder_id @order_ID=10267
+drop PROCEDURE getProductsbyOrder_id
+*/
+---------------		Q8		----------------------------
+/*
+select 
+[CustomerID],
+[EmployeeID],
+[ShipVia],
+[Freight],
+[ShipName],
+[ShipAddress],
+[ShipCity],
+[ShipRegion],
+[ShipPostalCode],
+[ShipCountry]
+from [Orders]
+where [CustomerID] like 'B%' and [ShipVia] = 1 and [ShipName] like 'B%' AND ([EmployeeID] = 2 or [EmployeeID] = 5)
+*/
+---------------		Q9		----------------------------
+/*
+select od.OrderID, od.ProductID, od.UnitPrice, od.Quantity, od.Discount, o.OrderDate, o.EmployeeID, o.CustomerID
+from [Orders]
+as o
+inner join [Order Details]
+as od
+on o.OrderID != od.OrderID or o.OrderID = od.OrderID
+where od.OrderID = 10248 and o.CustomerID like 'VINET'
+order by od.UnitPrice asc, o.EmployeeID asc
+*/
+---------------		Q10		----------------------------
+--select [CustomerID], [Region], [Country] from [Customers]
+--where [Country] like 'France' or [Country] like 'Canada'
